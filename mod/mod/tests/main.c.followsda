@@ -1,0 +1,140 @@
+/*
+ *
+ */
+
+#include <stdlib.h>
+#include <avr/io.h>
+#include <avr/pgmspace.h>
+#include <avr/interrupt.h>
+
+#define F_OSC F_CPU
+
+
+// Set fuses: 
+FUSES =
+{
+   .high = 0xff,
+   .low  = 0x7a,
+};
+
+// I2C slave address is 0x3c.  <<1 is 0x78
+// 00111100 // 0x3c
+// 01111000 // 0x78
+#define I2C_slaveAddress 0x78 // this address is <<1 (mask with 0xfe)
+
+
+// PORTB pins:
+#define ADC_I PORTB4
+#define ADC_V PORTB3
+#define RELAY PORTB0
+
+#define PORT_SDA PORTB1
+#define PORT_SCL PORTB2
+#define PIN_SDA  PINB1
+#define PIN_SCL  PINB2 
+
+#define SDA_high() { PORTB |=  (1<<PORT_SDA); DDRB &= ~(1<<PORTB1); } // allow pullups
+#define SDA_low()  { PORTB &= ~(1<<PORT_SDA); DDRB |=  (1<<PORTB1); } // drive to 0
+
+#define I2C_WAIT_FOR_START 0
+#define I2C_RECEIVE_ADDR   1
+#define I2C_RECEIVE_DATA   2
+#define I2C_SEND_DATA      3
+
+volatile uint8_t I2C_state;
+
+uint8_t read_I2C_byte(uint8_t match_slaveaddr)
+{
+  uint8_t i;
+  uint8_t data = 0;
+if(match_slaveaddr == 0) return 0;
+
+  for (i=0; i<8; i++) {
+      loop_until_bit_is_set(PINB, PIN_SCL);
+      PORTB &= ~(1<<RELAY);
+
+      if(bit_is_set(PINB,PIN_SDA)) { data |= 1; PORTB |= (1<<RELAY); } else { PORTB &= ~(1<<RELAY); }
+
+      while (bit_is_set(PINB,PIN_SCL)) {
+          // If SDA changes while SCL is high, it's a
+          // stop (low to high) or start (high to low) condition.
+          if( ((data&1)==1) && bit_is_clear(PINB,PIN_SDA)) { 
+              I2C_state = I2C_RECEIVE_ADDR;
+              return 0; //I2C_START_DETECTED;
+          }
+          if( ((data&1)==0) && bit_is_set(PINB,PIN_SDA)) { 
+              I2C_state = I2C_WAIT_FOR_START;
+              return 0; //I2C_STOP_DETECTED;
+          }
+      }
+//      PORTB |= (1<<RELAY);
+      data = (data << 1);
+  }
+return 0;
+  // Send ACK -- SCL is low now
+  if (match_slaveaddr) {
+      if((data & 0xfe) == I2C_slaveAddress) {
+          // send ACK
+          SDA_low();
+          loop_until_bit_is_set(PINB, PIN_SCL);
+          loop_until_bit_is_clear(PINB, PIN_SCL);
+          SDA_high();
+
+          if (data & 1) {
+              I2C_state = I2C_SEND_DATA;
+          } else {
+              I2C_state = I2C_RECEIVE_DATA;
+          }
+      } else {
+          I2C_state = I2C_WAIT_FOR_START;
+          return 0; //(I2C_ADDR_MISMATCH);
+      }
+  }
+  return data;
+}
+
+
+// pin change interrupt on SDA line
+ISR(PCINT0_vect)
+{
+      //PORTB |= (1<<RELAY);
+
+  if (bit_is_clear(PINB,PIN_SDA) && bit_is_set(PINB,PIN_SCL)) {
+      GIMSK &= ~(1<<PCIE); // disable pin change interrupt for SDA
+      loop_until_bit_is_clear(PINB, PIN_SCL);
+      I2C_state = I2C_RECEIVE_ADDR;
+
+      while(I2C_state != I2C_WAIT_FOR_START) {
+          switch(I2C_state) {
+            case I2C_RECEIVE_ADDR:
+              read_I2C_byte(1); // read address, 1=addr match
+              I2C_state = I2C_WAIT_FOR_START;
+              break;
+            default: 
+              I2C_state = I2C_WAIT_FOR_START;
+              break;
+          }
+      }
+      GIMSK |= (1<<PCIE);   // enable pin change interrupt for SDA
+      //PORTB &= ~(1<<RELAY);
+  } 
+}
+
+int main(void) 
+{
+    PORTB |= ((1<<PORT_SCL)|(1<<PORT_SDA)); // pullups on
+    DDRB  |= (1<<RELAY); // output for relay, I2C pullup
+    //DDRB  = (1<<DDB0); // output for relay, I2C pullup
+
+    PCMSK |= (1<<PCINT1); // enable PCINT1 interrupt on pin change (SDA line)
+    GIMSK |= (1<<PCIE);   // enable pin change interrupt
+
+    I2C_state = I2C_WAIT_FOR_START;
+
+    sei(); // enable interrupts
+
+    while(1) {
+        asm volatile ("nop");
+    }
+}
+

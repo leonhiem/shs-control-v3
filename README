@@ -1,0 +1,136 @@
+Kamworks GSMswitch Firmware for hardware v3
+-------------------------------------------
+
+Directories:
+
++--------------------------------------------+
+| shsmaster3: firmware for Master (ATSAMD20) |
++--------------------------------------------+
+
+Compiler switches in Atmel Studio:
+
+
+******************** MODULE SWITCHES ********************
+
+SYSTEM_CCNEO_SCC=n   (system is  [0=no,1=yes] CCNEO)      (note: SYSTEM_MODULAR_*=0 !)
+MAX_NOF_SCC=n        (n=maximal number of supported SCC boards in system --> 1-4)
+
+SYSTEM_MODULAR_DC=n  (system has [0=no,1=yes] DC module)  (note: SYSTEM_CCNEO_SCC=0 !)
+SYSTEM_MODULAR_AC=n  (system has [0=no,1=yes] AC module)  (note: SYSTEM_CCNEO_SCC=0 !)
+SYSTEM_MODULAR_PV=n  (system has [0=no,1=yes] PV module)  (note: SYSTEM_CCNEO_SCC=0 !)
+
+                                                          (note: SYSTEM_MODULAR_DC, 
+                                                                 SYSTEM_MODULAR_AC, 
+                                                                 SYSTEM_MODULAR_PV 
+                                                                 can all be 1)
+
+SYSTEM_NOF_MOD_PV=n  (n=number of MODULAR PV boards in system)
+SYSTEM_NOF_MOD_AC=n  (n=number of MODULAR AC boards in system)
+SYSTEM_NOF_MOD_DC=n  (n=number of MODULAR DC boards in system)
+
+
+MOD_VBATT_FULL_cV=n      (n defines the battery voltage when full. in V*100. 
+                            Example 1280 is a full 12V lead acid battery)
+
+MOD_VBATT_EMPTY_cV=n     (n defines the battery voltage when empty. in V*100.
+                            Example 1120 is an empty 12V lead acid battery)
+
+
+
+
+******************** OLED SWITCHES ********************
+
+OLED_ROTATE=n        (n=0: no rotate, n=1: rotate 180 degrees)
+
+OLED_LOAD_ACGAIN=n   (n=gain to adjust AC dail of load meter. Use 1 for SCC and 18 for AC module)
+                     (DC output + AC current x OLED_LOAD_ACGAIN)
+
+OLED_MAX_LOAD_CURR_cA=n  (n defines the maximal wished current to display on OLED display. in A*100
+                            Example 1000 is 10A) 
+
+
+******************** OTHER SWITCHES ********************
+
+MASTER_PCB_v32=n     (n=0: older pcb than v3.2, n=1: pcb is v3.2)
+
+TESTING=n            (n=1 testing and using hanuman-stag, 
+                      n=0 no testing and using hanuman)
+
+SIM_PROVIDER         (n=0: Cellcard Cambodia,
+                      n=1: CMNET China,
+                      n=2: KPN Holland,
+                      n=3: AH Holland,
+                      n=4: Glo 3G,
+                      n=5: Glo Flat)
+
+
+
+
+NOTE: Compiler switches can be set in Atmel Studio:
+      shsmaster3:Toolchain:ARM/GNU C Compiler:Symbols
+NOTE: The default compiler switches are in the top of the C-file: main.c
+NOTE: after changing a switch, you must recompile by: Rebuild All.
+NOTE: The default operator phone numbers are listed in the C-file: sim.c
+
+# CCNEO example:
+SYSTEM_CCNEO_SCC=1
+MAX_NOF_SCC=4
+SYSTEM_NOF_MOD=1
+SYSTEM_MODULAR_DC=0
+SYSTEM_MODULAR_AC=0
+SYSTEM_MODULAR_PV=0
+MOD_VBATT_FULL_cV=1280
+MOD_VBATT_EMPTY_cV=1120
+OLED_ROTATE=1
+OLED_LOAD_ACGAIN=1
+OLED_MAX_LOAD_CURR_cA=1000
+MASTER_PCB_v32=1
+TESTING=1
+SIM_PROVIDER=1
+
+# Modular AC+DC example:
+SYSTEM_CCNEO_SCC=0
+MAX_NOF_SCC=4
+SYSTEM_NOF_MOD=1
+SYSTEM_MODULAR_DC=1
+SYSTEM_MODULAR_AC=1
+SYSTEM_MODULAR_PV=0
+MOD_VBATT_FULL_cV=1280
+MOD_VBATT_EMPTY_cV=1120
+OLED_ROTATE=0
+OLED_LOAD_ACGAIN=18
+OLED_MAX_LOAD_CURR_cA=6400
+MASTER_PCB_v32=1
+TESTING=1
+SIM_PROVIDER=1
+
+
+
+
++--------------------------------------+
+| mod: firmware for modules (ATtiny13) |
++--------------------------------------+
+Compiler switches:
+
+Only 1 of the following 3 must be 1, the others 0 !
+MOD_PV=n  (n=1: module is PV)
+MOD_DC=n  (n=1: module is DC)
+MOD_AC=n  (n=1: module is AC)
+
+NOTE: precompiled ELF files can be found in directories: mod/firmware/MOD_AC  mod/firmware/MOD_DC  mod/firmware/MOD_PV
+
+
++-------------------------------------------------------+
+| scc: firmware for Solar Charge Controller (ATtiny861) |
++-------------------------------------------------------+
+Compiler switches:
+
+LITHIUM_3S=n  (n=0: battery is 12V lead acid, n=1 battery is 3S Lithium Ion)
+
+
+
++---------------------------------------------------------------------------------+
+| shs-master-as: firmware for the Master: Display V2 + SIM module V2 (ATmega1284) |
++---------------------------------------------------------------------------------+
+Old but still working with SCC board(s)
+

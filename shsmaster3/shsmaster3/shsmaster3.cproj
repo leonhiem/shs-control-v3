@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>7.0</ProjectVersion>
+    <ToolchainName>com.Atmel.ARMGCC.C</ToolchainName>
+    <ProjectGuid>dce6c7e3-ee26-4d79-826b-08594b9ad897</ProjectGuid>
+    <avrdevice>ATSAMD20E16</avrdevice>
+    <avrdeviceseries>none</avrdeviceseries>
+    <OutputType>Executable</OutputType>
+    <Language>C</Language>
+    <OutputFileName>$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <AssemblyName>shsmaster3</AssemblyName>
+    <Name>shsmaster3</Name>
+    <RootNamespace>shsmaster3</RootNamespace>
+    <ToolchainFlavour>Native</ToolchainFlavour>
+    <KeepTimersRunning>true</KeepTimersRunning>
+    <OverrideVtor>false</OverrideVtor>
+    <CacheFlash>true</CacheFlash>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <UncachedRange />
+    <preserveEEPROM>true</preserveEEPROM>
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <BootSegment>2</BootSegment>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <AsfFrameworkConfig>
+      <framework-data xmlns="">
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.34.1" />
+        </dependencies>
+      </framework-data>
+    </AsfFrameworkConfig>
+    <avrtool>com.atmel.avrdbg.tool.atmelice</avrtool>
+    <avrtoolserialnumber>J41800059415</avrtoolserialnumber>
+    <avrdeviceexpectedsignature>0x1000160C</avrdeviceexpectedsignature>
+    <avrtoolinterface>SWD</avrtoolinterface>
+    <com_atmel_avrdbg_tool_atmelice>
+      <ToolOptions>
+        <InterfaceProperties>
+          <SwdClock>2000000</SwdClock>
+        </InterfaceProperties>
+        <InterfaceName>SWD</InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.atmelice</ToolType>
+      <ToolNumber>J41800059415</ToolNumber>
+      <ToolName>Atmel-ICE</ToolName>
+    </com_atmel_avrdbg_tool_atmelice>
+    <avrtoolinterfaceclock>2000000</avrtoolinterfaceclock>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ToolchainSettings>
+      <ArmGcc>
+  <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>NDEBUG</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\SAMD20_DFP\1.1.84\samd20b\include</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Include\</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize for size (-Os)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libm</Value>
+    </ListValues>
+  </armgcc.linker.libraries.Libraries>
+  <armgcc.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>%24(ProjectDir)\Device_Startup</Value>
+    </ListValues>
+  </armgcc.linker.libraries.LibrarySearchPaths>
+  <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
+  <armgcc.linker.miscellaneous.LinkerFlags>-Tsamd20e16_flash.ld</armgcc.linker.miscellaneous.LinkerFlags>
+  <armgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\SAMD20_DFP\1.1.84\samd20b\include</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Include\</Value>
+    </ListValues>
+  </armgcc.assembler.general.IncludePaths>
+  <armgcc.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\SAMD20_DFP\1.1.84\samd20b\include</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Include\</Value>
+    </ListValues>
+  </armgcc.preprocessingassembler.general.IncludePaths>
+</ArmGcc>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ToolchainSettings>
+      <ArmGcc>
+  <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</armgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <armgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</armgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>DEBUG</Value>
+      <Value>F_CPU=8000000</Value>
+      <Value>DONT_USE_CMSIS_INIT</Value>
+      <Value>TESTING=1</Value>
+      <Value>MASTER_PCB_v32=1</Value>
+      <Value>SIM_PROVIDER=1</Value>
+      <Value>SYSTEM_CCNEO_SCC=1</Value>
+      <Value>SYSTEM_MODULAR_DC=0</Value>
+      <Value>SYSTEM_MODULAR_AC=0</Value>
+      <Value>SYSTEM_MODULAR_PV=0</Value>
+      <Value>SYSTEM_NOF_MOD_DC=1</Value>
+      <Value>SYSTEM_NOF_MOD_AC=1</Value>
+      <Value>SYSTEM_NOF_MOD_PV=1</Value>
+      <Value>MAX_NOF_SCC=4</Value>
+      <Value>OLED_ROTATE=1</Value>
+      <Value>OLED_LOAD_ACGAIN=1</Value>
+      <Value>OLED_MAX_LOAD_CURR_cA=1000</Value>
+      <Value>MOD_VBATT_FULL_cV=1280</Value>
+      <Value>MOD_VBATT_EMPTY_cV=1120</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>../oled</Value>
+      <Value>%24(PackRepoDir)\atmel\SAMD20_DFP\1.1.84\samd20b\include</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Include\</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize for size (-Os)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.optimization.DebugLevel>Maximum (-g3)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.linker.general.UseNewlibNano>True</armgcc.linker.general.UseNewlibNano>
+  <armgcc.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>%24(ProjectDir)\Device_Startup</Value>
+    </ListValues>
+  </armgcc.linker.libraries.LibrarySearchPaths>
+  <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
+  <armgcc.linker.memorysettings.ExternalRAM />
+  <armgcc.linker.miscellaneous.LinkerFlags>-Tsamd20e16_flash.ld</armgcc.linker.miscellaneous.LinkerFlags>
+  <armgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\SAMD20_DFP\1.1.84\samd20b\include</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Include\</Value>
+    </ListValues>
+  </armgcc.assembler.general.IncludePaths>
+  <armgcc.assembler.debugging.DebugLevel>Default (-g)</armgcc.assembler.debugging.DebugLevel>
+  <armgcc.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\SAMD20_DFP\1.1.84\samd20b\include</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Include\</Value>
+    </ListValues>
+  </armgcc.preprocessingassembler.general.IncludePaths>
+  <armgcc.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcc.preprocessingassembler.debugging.DebugLevel>
+</ArmGcc>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="adc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="adc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="bt.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="bt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cmd.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cmd.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="code.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="code.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Device_Startup\startup_samd20.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Device_Startup\system_samd20.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="flash.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="flash.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="hal_gpio.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ir_receiver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ir_receiver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="mod.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="mod.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_bitmap.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_box.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_buffer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_circle.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_cleardisplay.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_d_memory.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_d_setup.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_font.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_fonts.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_hvline.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_input_value.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_intersection.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_kerning.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_line.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_ll_hvline.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_message.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_selection_list.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8g2_setup.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_8x8.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_byte.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_cad.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_debounce.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_display.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_d_ssd1306_128x64_noname.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_d_stdio.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_gpio.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_input_value.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_message.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_selection_list.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_setup.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_string.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_u16toa.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oled\u8x8_u8toa.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pitches.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="rtc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="rtc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="scc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="scc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="shsctrl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sim.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sim.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tone.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tone.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="i2c.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="i2c.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="uart.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="uart.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="utils.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="utils.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="wdt.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="wdt.h">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Device_Startup\" />
+    <Folder Include="oled" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Device_Startup\samd20e16_flash.ld">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="Device_Startup\samd20e16_sram.ld">
+      <SubType>compile</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
+</Project>

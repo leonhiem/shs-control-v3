@@ -1,0 +1,98 @@
+###############################################################################
+# Makefile for the project scc-mppt
+###############################################################################
+
+## General Flags
+PROJECT = scc-mppt
+MCU = attiny861
+TARGET = scc-mppt.elf
+AVRDIR = /home/leon/avr/avr8-gnu-toolchain-linux_x86_64
+CC = $(AVRDIR)/bin/avr-gcc
+OC = $(AVRDIR)/bin/avr-objcopy
+OD = $(AVRDIR)/bin/avr-objdump
+SZ = $(AVRDIR)/bin/avr-size
+
+INCLUDEDIR = $(AVRDIR)/include
+LIBDIR = $(AVRDIR)/lib
+
+## Options common to compile, link and assembly rules
+COMMON = -mmcu=$(MCU)
+
+## Compile options common for all C compilation units.
+CFLAGS = $(COMMON) -I$(INCLUDEDIR) -L$(LIBDIR)
+CFLAGS += -Wall -gdwarf-2 -std=gnu99 -DF_CPU=8000000UL -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
+
+## Assembly specific flags
+ASMFLAGS = $(COMMON)
+ASMFLAGS += $(CFLAGS)
+ASMFLAGS += -x assembler-with-cpp -Wa,-gdwarf2
+
+## Linker flags
+LDFLAGS = $(COMMON)
+LDFLAGS +=  -Wl,-Map=scc-mppt.map
+
+CFLAGS += -I.
+
+## Intel Hex file production flags
+HEX_FLASH_FLAGS = -R .eeprom -R .fuse -R .lock -R .signature
+
+HEX_EEPROM_FLAGS = -j .eeprom
+HEX_EEPROM_FLAGS += --set-section-flags=.eeprom="alloc,load"
+HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
+
+
+## Objects that must be built in order to link
+#OBJECTS = delay.o scc-mppt.o
+OBJECTS = scc-mppt.o
+
+## Objects explicitly added by the user
+LINKONLYOBJECTS = 
+
+## Build
+all: $(TARGET) scc-mppt.hex scc-mppt.eep scc-mppt.lss size
+
+## Compile
+scc-mppt.o:  scc-mppt.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+##Link
+$(TARGET): $(OBJECTS)
+	 $(CC) $(LDFLAGS) $(OBJECTS) $(LINKONLYOBJECTS) $(LIBDIRS) $(LIBS) -o $(TARGET)
+
+%.hex: $(TARGET)
+	$(OC) -O ihex $(HEX_FLASH_FLAGS)  $< $@
+
+%.eep: $(TARGET)
+	-$(OC) $(HEX_EEPROM_FLAGS) -O ihex $< $@ || exit 0
+
+%.lss: $(TARGET)
+	$(OD) -h -S $< > $@
+
+size: ${TARGET}
+	@echo
+#	@$(SZ) -C --mcu=${MCU} ${TARGET}
+	@$(SZ) --target=ihex ${TARGET}
+
+## Clean target
+.PHONY: clean
+clean:
+	-rm -rf $(OBJECTS) scc-mppt.elf dep/* scc-mppt.hex scc-mppt.eep scc-mppt.lss scc-mppt.map
+
+prog:
+	avrdude -p t861 -c avrispmkII -P usb -e -U flash:w:scc-mppt.hex:i
+	avrdude -p t861 -c avrispmkII -P usb -U eeprom:w:scc-mppt.eep
+
+fuses:
+	avrdude -p t861 -c avrispmkII -P usb -U lfuse:w:0xe2:m
+	#avrdude -p t861 -c avrispmkII -P usb -U lfuse:w:0x42:m
+
+	avrdude -p t861 -c avrispmkII -P usb -U hfuse:w:0xd5:m
+	#avrdude -p t861 -c avrispmkII -P usb -U hfuse:w:0xd6:m
+
+	#avrdude -p t261 -c stk500 -P /dev/ttyUSB0 -U efuse:w:0x05:m
+	#avrdude -p t261 -c stk500 -P /dev/ttyUSB0 -U lock:w:0x3c:m
+
+## Other dependencies
+-include $(shell mkdir dep 2>/dev/null) $(wildcard dep/*)
+
